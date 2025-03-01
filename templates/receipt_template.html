@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Чек</title>
+    <style>
+        body {
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .title {
+            text-align: center;
+            font-weight: bold;
+        }
+        .center { text-align: center; }
+        .right { text-align: right; }
+        .bold { font-weight: bold; }
+        .items, .footer { margin-top: 10px; }
+        .line { border-top: 1px dashed black; margin: 5px 0; }
+        .double-line { border-top: 2px solid black; margin: 5px 0; }
+    </style>
+</head>
+<body>
+    <div class="title">ООО "КОМПАНИЯ К"</div>
+    <p class="center">Добро пожаловать</p>
+    <p>ККМ 00075411       #3969</p>
+    <p>ИНН 1087746942040</p>
+    <p>ЭКЛЗ 3851495566</p>
+    <p class="bold">{{ current_date_time }} СИС.</p>
+    <div class="line"></div>
+    <p>АДМИ</p>
+    <p class="bold">НАИМЕНОВАНИЕ ТОВАРА</p>
+    <div class="items">
+        {% for item in items %}
+            <p>{{ item.title }}</p>
+            <p>  {{ item.quantity }}    ={{ item.price|floatformat:2 }}</p>
+        {% endfor %}
+    </div>
+    <div class="double-line"></div>
+    <p class="bold">ИТОГ</p>
+    <p class="bold right">{{ total_price|floatformat:2 }}</p>
+    <p>НАЛИЧНЫМИ        ={{ total_price|floatformat:2 }}</p>
+    <div class="line"></div>
+    <p class="center">**********************</p>
+    <p class="center">00003751# 05970</p>
+</body>
+</html>
