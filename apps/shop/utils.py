@@ -27,9 +27,9 @@ def generate_pdf(data: Dict, receipt_id: int) -> str:
 
 def generate_qr_code(receipt: Receipt) -> str:
     """Генерация QR-кода со ссылкой на PDF-чек"""
-    pdf_url = f"{settings.MEDIA_URL}{receipt.pdf_file}"
+    pdf_url = f"{settings.SITE_URL}{settings.MEDIA_URL}{receipt.pdf_file}"
     qr = qrcode.make(pdf_url)
     qr_name = get_timestamp_file_name(f"qr-{receipt.id}", "png")
-    qr_path = os.path.join(settings.MEDIA_URL, f"receipts/{qr_name}")
+    qr_path = os.path.join(settings.MEDIA_ROOT, f"receipts/{qr_name}")
     qr.save(qr_path)
     return f"{settings.MEDIA_URL}receipts/{qr_name}"
