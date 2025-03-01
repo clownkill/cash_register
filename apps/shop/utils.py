@@ -21,6 +21,7 @@ def generate_pdf(data: Dict, receipt_id: int) -> str:
     html = render_to_string("receipt_template.html", data)
     pdf_file_name = get_timestamp_file_name(f"receipt_{receipt_id}", "pdf")
     pdf_path = os.path.join(settings.MEDIA_ROOT, f"receipts/{pdf_file_name}")
+    pdfkit.from_string(html, pdf_path)
     return f"receipts/{pdf_file_name}"
 
 
