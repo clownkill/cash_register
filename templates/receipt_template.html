@@ -6,42 +6,49 @@
     <style>
         body {
             font-family: monospace;
-            white-space: pre-wrap;
-        }
-        .title {
-            text-align: center;
-            font-weight: bold;
+            font-size: 12px;
+            margin: 0;
+            padding: 0;
+            white-space: nowrap;
+            width: 200px; /* Уменьшаем ширину чека */
         }
         .center { text-align: center; }
-        .right { text-align: right; }
+        .left { text-align: left; display: inline-block; width: 100px; }
+        .right { text-align: right; display: inline-block; width: 60px; }
         .bold { font-weight: bold; }
-        .items, .footer { margin-top: 10px; }
-        .line { border-top: 1px dashed black; margin: 5px 0; }
-        .double-line { border-top: 2px solid black; margin: 5px 0; }
+        .line { border-top: 1px dashed black; margin: 2px 0; }
+        .double-line { border-top: 2px solid black; margin: 2px 0; }
     </style>
 </head>
 <body>
-    <div class="title">ООО "КОМПАНИЯ К"</div>
-    <p class="center">Добро пожаловать</p>
-    <p>ККМ 00075411       #3969</p>
-    <p>ИНН 1087746942040</p>
-    <p>ЭКЛЗ 3851495566</p>
-    <p class="bold">{{ current_date_time }} СИС.</p>
+    {% load custom_filters %}
+    <div class="center bold">ООО "КОМПАНИЯ К"</div>
+    <div class="center">Добро пожаловать</div>
+    <div>ККМ 00075411  #3969</div>
+    <div>ИНН 1087746942040</div>
+    <div>ЭКЛЗ 3851495566</div>
+    <div class="bold">{{ current_date_time|date:"d.m.Y H:i" }} СИС.</div>
     <div class="line"></div>
-    <p>АДМИ</p>
-    <p class="bold">НАИМЕНОВАНИЕ ТОВАРА</p>
-    <div class="items">
-        {% for item in items %}
-            <p>{{ item.title }}</p>
-            <p>  {{ item.quantity }}    ={{ item.price|floatformat:2 }}</p>
-        {% endfor %}
-    </div>
+    <div class="bold">АДМИ</div>
+
+    {% for item in items %}
+        <div>{{ item.title }}</div> <!-- Название товара отдельной строкой -->
+        <div>
+            <span class="left">{{ item.quantity }} × {{ item.price|floatformat:2 }}</span>
+            <span class="right">= {{ item.quantity|mul:item.price|floatformat:2 }}</span>
+        </div>
+    {% endfor %}
+
     <div class="double-line"></div>
-    <p class="bold">ИТОГ</p>
-    <p class="bold right">{{ total_price|floatformat:2 }}</p>
-    <p>НАЛИЧНЫМИ        ={{ total_price|floatformat:2 }}</p>
+    <div class="bold">
+        <span class="left">ИТОГ</span>
+        <span class="right">{{ total_price|floatformat:2 }}</span>
+    </div>
+    <div>
+        <span class="left">НАЛИЧНЫМИ</span>
+        <span class="right">{{ total_price|floatformat:2 }}</span>
+    </div>
     <div class="line"></div>
-    <p class="center">**********************</p>
-    <p class="center">00003751# 05970</p>
+    <div class="center">00003751# 05970</div>
 </body>
 </html>
