@@ -19,14 +19,11 @@ repos:
       - id: destroyed-symlinks
       - id: detect-private-key
       - id: end-of-file-fixer
-        exclude: all_tests/
       - id: fix-byte-order-marker
       - id: mixed-line-ending
       - id: name-tests-test
       - id: pretty-format-json
-        exclude: all_tests/
       - id: trailing-whitespace
-        exclude: all_tests/
   - repo: https://github.com/psf/black
     rev: 24.4.2
     hooks:
