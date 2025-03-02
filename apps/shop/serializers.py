@@ -29,14 +29,16 @@ class ReceiptSerializer(serializers.Serializer):
         if missing_ids:
             raise serializers.ValidationError({"missing_items": list(missing_ids)})
 
-        self.context['items'] = items
+        self.context["items"] = items
 
         return item_counts
 
     def create(self, validated_data: Dict[str, Any]) -> Dict[str, str]:
         item_counts = validated_data["items"]
-        items = self.context['items']
-        total_price = sum(items[item_id].price * count for item_id, count in item_counts.items())
+        items = self.context["items"]
+        total_price = sum(
+            items[item_id].price * count for item_id, count in item_counts.items()
+        )
 
         with transaction.atomic():
             receipt = Receipt.objects.create(total_price=total_price)
@@ -54,7 +56,11 @@ class ReceiptSerializer(serializers.Serializer):
 
         pdf_data = {
             "items": [
-                {"title": ri.title_at_time_of_purchase, "price": ri.price_at_time_of_purchase, "quantity": ri.quantity}
+                {
+                    "title": ri.title_at_time_of_purchase,
+                    "price": ri.price_at_time_of_purchase,
+                    "quantity": ri.quantity,
+                }
                 for ri in receipt_items
             ],
             "total_price": total_price,
