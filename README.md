@@ -36,12 +36,13 @@ git clone <URL_РЕПОЗИТОРИЯ>
 cd cash_register
 ```
 
-### 2️⃣ Создание виртуального окружения и установка зависимостей
+### 2️⃣ Создание виртуального окружения, установка зависимостей и установка pre-commit hooks
 ```sh
 python -m venv venv
 source venv/bin/activate  # Для macOS/Linux
 venv\Scripts\activate    # Для Windows
 pip install -r requirements.txt
+pre-commit install
 ```
 
 ### 3️⃣ Создание `.env` файла
