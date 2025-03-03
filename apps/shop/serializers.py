@@ -5,6 +5,7 @@ from typing import Dict, Any
 from django.db import transaction
 from rest_framework import serializers
 
+from shop.exceptions import PDFGenerationError, QRGenerationError
 from shop.models import Item, Receipt, ReceiptItem
 from shop.utils import generate_pdf, generate_qr_code
 
@@ -66,8 +67,14 @@ class ReceiptSerializer(serializers.Serializer):
             "total_price": total_price,
             "current_date_time": datetime.now(),
         }
-        receipt.pdf_file.name = generate_pdf(pdf_data, receipt.id)
-        qr_code_url = generate_qr_code(receipt)
+        try:
+            receipt.pdf_file.name = generate_pdf(pdf_data, receipt.id)
+        except PDFGenerationError as e:
+            raise serializers.ValidationError({"pdf_error": str(e)}) from e
+        try:
+            qr_code_url = generate_qr_code(receipt)
+        except QRGenerationError as e:
+            raise serializers.ValidationError({"qr_error": str(e)}) from e
         receipt.qr_code.name = qr_code_url.split("media/")[1]
         receipt.save()
 
